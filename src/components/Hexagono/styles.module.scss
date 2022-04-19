@@ -1,0 +1,8 @@
+.hexagono {
+   img{
+      width: 160px;
+      height: 185px;
+      object-fit: cover;
+      clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+   }
+ }
