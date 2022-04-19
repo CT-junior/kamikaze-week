@@ -4,7 +4,6 @@ import {
   Heading,
   HStack,
   Image,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
@@ -39,6 +38,7 @@ const Home: NextPage = () => {
         <Heading
           position="relative"
           fontSize="36px"
+          fontFamily="Montserrat"
           fontWeight="800"
           letterSpacing="-2px"
           textAlign="center"
