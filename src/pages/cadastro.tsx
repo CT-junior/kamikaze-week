@@ -16,6 +16,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../components/Form";
 import { Input as InputChakra } from "@chakra-ui/react";
+
 type RegisterCongressmanFormData = {
   name: string;
   course: string;
@@ -63,24 +64,28 @@ const Cadastro: NextPage = () => {
     <Center h="100vh">
       <Box
         bg="gray.800"
+        bgImage="url('/images/bg-cadastro.svg')"
+        bgRepeat="no-repeat"
+
         h={{ base: "100vh", sm: "unset" }}
         w={{ base: "100%", sm: "485px" }}
+        display="flex" flexDirection="column"
       >
-        <Image src="/images/bg-cadastro.svg" position="absolute" />
-        <Box position="relative" p="20px">
+        {/* <Image src="/images/bg-cadastro.svg" position="absolute"  /> */}
+        <Box position="relative" p="20px 40px">
           <Heading
             as="h1"
             fontSize="24px"
             fontWeight="700"
             textAlign="center"
-            lineHeight="32px"
+            lineHeight="22px"
           >
             Cadastro de congressista
           </Heading>
           <Text
             as="h2"
             fontFamily="Montserrat"
-            fontSize="36px"
+            fontSize={{base:"32px",sm:"36px"}}
             fontWeight="800"
             textAlign="center"
             lineHeight="32px"
@@ -160,9 +165,9 @@ const Cadastro: NextPage = () => {
                 type="submit"
                 bg="white"
                 color="black"
-                fontSize="24px"
+                fontSize={{base:"18px", sm:"24px"}}
                 fontWeight="600"
-                h="60px"
+                h={{base:"40px", sm:"60px"}}
                 isLoading={isSubmitting}
               >
                 ENVIAR

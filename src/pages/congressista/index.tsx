@@ -2,7 +2,7 @@ import { Center, Heading, Spinner } from "@chakra-ui/react";
 
 import type { NextPage } from "next";
 
-const Home: NextPage = () => {
+const Congresso: NextPage = () => {
   return (
     <Center h="100vh" display="flex" flexDirection="column">
       <Heading>PÁGINA EM CONSTRUÇÃO</Heading>
@@ -10,11 +10,11 @@ const Home: NextPage = () => {
         mt="24px"
         thickness="4px"
         speed="0.80s"
-        color="green.800"
+        color="orange.900"
         size="xl"
       />
     </Center>
   );
 };
 
-export default Home;
+export default Congresso;

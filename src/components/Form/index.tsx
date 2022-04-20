@@ -26,12 +26,12 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         id={name}
         type={"email"}
         focusBorderColor="green.800"
-        bg="gray.700"
+        bg="gray.500"
         _placeholder={{ opacity: 0.5, color: 'black' }}
         color="black"
         variant="outline"
         border="none"
-        fontSize="24px"
+        fontSize={{base:"18px", sm:"24px"}}
 
         size="lg"
         ref={ref}
