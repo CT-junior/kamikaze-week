@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Flex,
   Heading,
   HStack,
   Image,
@@ -14,7 +13,6 @@ import type { NextPage } from "next";
 import { Hexagono } from "../../components/Hexagono";
 
 import { useRouter } from "next/router";
-import { useUser, useUsers } from "../../services/hooks/useCongressistas";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 

@@ -4,7 +4,6 @@ import {
     Center,
     FormLabel,
     Heading,
-    HStack,
     Image,
     Stack,
     Text,
@@ -16,6 +15,8 @@ import {
   import { yupResolver } from "@hookform/resolvers/yup";
   import { Input } from "../../components/Form";
   import { Input as InputChakra } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { handleUploadImage } from "../../services/firebase";
   
   type RegisterCongressmanFormData = {
     name: string;
@@ -45,6 +46,9 @@ import {
   });
   
   const Cadastro: NextPage = () => {
+    const [imageFile, setImageFile] = useState<File>();
+    const [imageDisplay, setImageDisplay] = useState("/images/file-upload-icon.svg");
+
     const {
       register,
       handleSubmit,
@@ -56,9 +60,17 @@ import {
     const handleRegisterCongressman: SubmitHandler<
       RegisterCongressmanFormData
     > = async (values) => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(values);
+      
+      const imageUrl = await handleUploadImage(imageFile);
+
+      console.log(imageUrl);
     };
+
+    function handleImageChange(event: React.FormEvent){
+      const image = (event.target as HTMLInputElement).files[0];
+      setImageFile(image);
+      setImageDisplay(URL.createObjectURL(image));
+    }
   
     return (
       <Center h="100vh">
@@ -73,7 +85,7 @@ import {
         >
           {/* <Image src="/images/bg-cadastro.svg" position="absolute"  /> */}
           <Box position="relative" p="20px 40px">
-            <Heading
+          <Heading
               as="h1"
               fontSize="24px"
               fontWeight="700"
@@ -150,13 +162,14 @@ import {
                       alignItems="center"
                       justifyContent="center"
                     >
-                      <Image src="/images/file-upload-icon.svg" />
+                      <Image src={imageDisplay} />
                     </FormLabel>
                     <InputChakra
                       name="file"
                       id="file"
                       type="file"
                       display="none"
+                      onChange={(ev) => handleImageChange(ev)}
                     />
                   </Stack>
                 </Center>
