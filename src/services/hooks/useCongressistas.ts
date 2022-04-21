@@ -27,11 +27,29 @@ export async function getUsers(): Promise<User[]> {
   });
 
   return users
+;}
+
+export async function getUser(id: Number): Promise<User> {
+  const { data } = await api.get(`users/${id}`);
+
+  const user = data.user;
+   
+
+  return user
   ;}
 
-  export function useUsers() {
+export function useUsers() {
     return useQuery<User[]>("users", getUsers, {
         staleTime: 1000 * 5,
       }
     );
   }
+
+  export function useUser(id: Number){
+    return useQuery<User>("user", () => getUser(id), {
+      staleTime: 1000 * 5,
+    }
+  );
+  }
+
+
