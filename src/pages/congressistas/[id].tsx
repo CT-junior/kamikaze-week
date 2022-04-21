@@ -18,7 +18,7 @@ import { useUser, useUsers } from "../../services/hooks/useCongressistas";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 
-interface User  {
+interface User {
   name: string;
   course: string;
   period: string;
@@ -26,36 +26,31 @@ interface User  {
   email: string;
   avatar: string;
 }
-const Congressista: NextPage = () => {
-  const [data, setData] = useState<User>({
-    name: '',
-    course: '',
-    period: '',
-    phone: 0,
-    email: '',
-    avatar: '',
-  });
-  
+
+
+const Congressistas: NextPage = () => {
+  const [data, setData] = useState<User>();
   const { query } = useRouter();
   const { id } = query;
 
-  console.log(id)
-
-
   useEffect(() => {
-    try {
-      api.get(`users/${id}`).then((response) => {
-        console.log(response);
-        setData(response.data.user)
-      });
-    } catch (error) {
-      console.log(error)
+    if (!!id) {
+      api.get(`users/${id}`).then(response => {
+        setData(response.data.user);
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error)
+      })
     }
-
   }, [id]);
 
-  // const { data, isLoading, isFetching, error } = useUser(id);
-
+  if (!data) {
+    return (
+      <Center h="100vh">
+        <Spinner />
+      </Center>
+    )
+  }
   return (
     <Center display="flex" flexDirection="column" position="relative">
       <Center display={{ base: "none", sm: "flex" }}>
@@ -81,11 +76,6 @@ const Congressista: NextPage = () => {
           zIndex={0}
           w={{ base: "100%", sm: "unset" }}
         />
-        {/* {isLoading ? (
-          <Flex justify="center">
-            <Spinner />
-          </Flex>
-        ) : ( */}
         <>
           <Heading
             position="relative"
@@ -161,4 +151,4 @@ const Congressista: NextPage = () => {
   );
 };
 
-export default Congressista;
+export default Congressistas;
