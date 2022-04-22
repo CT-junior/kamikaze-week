@@ -14,7 +14,8 @@ import { db } from "../../services/firebase";
 
 import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
-
+import { QrCode } from "../../components/QrCode";
+import { useRouter } from 'next/router'
 interface CongressistaProps {
   data:{
     name: string;
@@ -23,11 +24,13 @@ interface CongressistaProps {
     phone: string
     email: string
     avatarUrl: string
-  }
+  },
+  id: string
 }
 
-export default function Congressistas({ data }: CongressistaProps) {
-  
+export default function Congressistas({ data, id }: CongressistaProps) {
+  const linkTag = `http://localhost:3000${useRouter().asPath}`
+  console.log(linkTag)
   return (
     <Center display="flex" flexDirection="column" position="relative">
       <Center display={{ base: "none", sm: "flex" }}>
@@ -115,10 +118,7 @@ export default function Congressistas({ data }: CongressistaProps) {
               {data.period}º Período
             </Text>
             <Center mt={{ base: "20px", sm: "10px" }} mb="25px">
-              <Image
-                src="/images/qr-code.svg"
-                w={{ base: "60%", sm: "unset" }}
-              />
+              <QrCode size={200} string={linkTag} />
             </Center>
           </Box>
         </>
@@ -150,6 +150,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const docRef = doc(db, "congressistas", id);
   const docSnap = await getDoc(docRef);
   return {
-    props: { data: docSnap.data() ||null},
+    props: { data: docSnap.data() ||null, id},
   };
 };
