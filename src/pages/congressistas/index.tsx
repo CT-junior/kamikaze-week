@@ -1,14 +1,10 @@
-import NextLink from "next/link";
 import type { NextPage } from "next";
 
 import {
   Link,
   Box,
-  Button,
-  Checkbox,
   Flex,
   Heading,
-  Icon,
   Table,
   Tbody,
   Td,
@@ -19,20 +15,33 @@ import {
   Spinner,
   Image,
 } from "@chakra-ui/react";
-import { RiAddLine, RiPencilLine } from "react-icons/ri";
 
-import { useUsers } from "../../services/hooks/useCongressistas";
+import { useEffect, useState } from "react";
 
-type User = {
-  name: string;
-  course: string;
-  period: string;
-  phone: number;
-  email: string;
-};
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from "../../services/firebase";
+const dbInstance = collection(db, 'congressistas');
 
 const Congressistas: NextPage = () => {
-  const { data, isLoading, isFetching, error } = useUsers();
+  const [ congressistas, setCongressistas] = useState([]);
+  
+  let isLoading = true;
+
+  const getNotes = () => {
+    getDocs(dbInstance)
+        .then((data) => {
+          setCongressistas(data.docs.map((item) => {
+                return { ...item.data(), id: item.id }
+                
+            }));
+        })
+        let isLoading = true;
+  }
+  
+  useEffect(() => { 
+    getNotes();
+    
+  }, [])
 
   return (
     <Box>
@@ -41,22 +50,11 @@ const Congressistas: NextPage = () => {
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
               Congressistas
-              {!isLoading && isFetching && (
+              {!isLoading && (
                 <Spinner size="sm" color="gray.500" ml="4" />
               )}
             </Heading>
           </Flex>
-
-          {isLoading ? (
-            <Flex justify="center">
-              <Spinner />
-            </Flex>
-          ) : error ? (
-            <Flex>
-              <Text>Falha ao obter dados dos usuários.</Text>
-            </Flex>
-          ) : (
-            <>
               <Table colorScheme="whiteAlpha">
                 <Thead>
                   <Tr>
@@ -66,19 +64,19 @@ const Congressistas: NextPage = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((congressista) => {
+                  {congressistas.map((congressista) => {
                     return (
                       <Tr key={congressista.name}>
                         <Td>
                           <Flex>
                             <Image
-                              src={congressista.avatar}
+                              src={`${congressista.avatarUrl}`}
                               borderRadius="full"
                               boxSize="45px"
                               mr={4}
                             />
                             <Box>
-                              <Link color="purple.400">
+                              <Link color="purple.400" href={`/congressistas/${congressista.id}`}>
                                 <Text fontWeight="bold">
                                   {congressista.name}
                                 </Text>
@@ -103,8 +101,6 @@ const Congressistas: NextPage = () => {
                   })}
                 </Tbody>
               </Table>
-            </>
-          )}
         </Box>
       </Flex>
     </Box>

@@ -17,24 +17,36 @@ import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 
 interface User {
-  name: string;
-  course: string;
-  period: string;
-  phone: number;
-  email: string;
-  avatar: string;
+  name: {
+    stringValue: string,
+  },
+  course: {
+    stringValue: string,
+  },
+  period: {
+    integerValue: string,
+  },
+  phone: {
+    stringValue: string,
+  },
+  email: {
+    stringValue: string,
+  },
+  avatarUrl: {
+    stringValue: string,
+  },
 }
 
-
-const Congressistas: NextPage = () => {
+const Congressistas: NextPage = () =>{
   const [data, setData] = useState<User>();
   const { query } = useRouter();
   const { id } = query;
 
+  
   useEffect(() => {
     if (!!id) {
-      api.get(`users/${id}`).then(response => {
-        setData(response.data.user);
+      api.get(`congressistas/${id}`).then(response => {
+        setData(response.data.fields);
         console.log(response.data)
       }).catch((error) => {
         console.log(error)
@@ -91,7 +103,7 @@ const Congressistas: NextPage = () => {
           </Heading>
           <Center mt="-32px">
             <Hexagono>
-              <img src={data.avatar} />
+              <img src={data.avatarUrl.stringValue} />
             </Hexagono>
           </Center>
           <Box pl="10px" pr="10px">
@@ -111,7 +123,7 @@ const Congressistas: NextPage = () => {
                     textAlign={{ base: "left", sm: "center" }}
                     lineHeight="25px"
                   >
-                    {data.name}
+                    {data.name.stringValue}
                   </Text>
                   <Text
                     as="p"
@@ -119,7 +131,7 @@ const Congressistas: NextPage = () => {
                     fontSize="14px"
                     mt="10px"
                   >
-                    {data.email}
+                    {data.email.stringValue}
                   </Text>
                 </Box>
               </HStack>
@@ -131,9 +143,9 @@ const Congressistas: NextPage = () => {
               mt={{ base: "50px", sm: "30px" }}
               fontSize="16px"
             >
-              {data.course}
+              {data.course.stringValue}
               <br />
-              {data.period}º Período
+              {data.period.integerValue}º Período
             </Text>
             <Center mt={{ base: "20px", sm: "10px" }} mb="25px">
               <Image
@@ -143,7 +155,6 @@ const Congressistas: NextPage = () => {
             </Center>
           </Box>
         </>
-        {/* )} */}
       </Box>
     </Center>
   );

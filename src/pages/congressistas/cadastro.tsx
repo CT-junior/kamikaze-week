@@ -10,6 +10,9 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
+import { app, db } from "../../services/firebase";
+import { collection, addDoc } from "firebase/firestore";
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -22,7 +25,7 @@ type RegisterCongressmanFormData = {
   name: string;
   course: string;
   period: string;
-  phone: number;
+  phone: string;
   email: string;
 };
 
@@ -45,9 +48,14 @@ const RegisterCongressmanFormSchema = yup.object().shape({
   email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
 });
 
+const dbInstance = collection(db, "congressistas");
+
 const Cadastro: NextPage = () => {
   const [imageFile, setImageFile] = useState<File>();
-  const [imageDisplay, setImageDisplay] = useState("/images/file-upload-icon.svg");
+  const [imageDisplay, setImageDisplay] = useState(
+    "/images/file-upload-icon.svg"
+  );
+ 
 
   const {
     register,
@@ -60,14 +68,21 @@ const Cadastro: NextPage = () => {
   const handleRegisterCongressman: SubmitHandler<
     RegisterCongressmanFormData
   > = async (values) => {
-
     const imageUrl = await handleUploadImage(imageFile);
 
     const congressist = {
       imageUrl,
-      ...values
-    }
-
+      ...values,
+    };
+    
+    addDoc(dbInstance, {
+      name: congressist.name,
+      email: congressist.email,
+      course: congressist.course,
+      period: congressist.period,
+      phone: congressist.phone,
+      avatarUrl: congressist.imageUrl,
+    });
     console.log(congressist);
   };
 
@@ -90,10 +105,10 @@ const Cadastro: NextPage = () => {
         bg="gray.800"
         bgImage="url('/images/bg-cadastro.svg')"
         bgRepeat="no-repeat"
-
         h={{ base: "100vh", sm: "unset" }}
         w={{ base: "100%", sm: "485px" }}
-        display="flex" flexDirection="column"
+        display="flex"
+        flexDirection="column"
       >
         {/* <Image src="/images/bg-cadastro.svg" position="absolute"  /> */}
         <Box position="relative" p="20px 40px">
@@ -161,7 +176,9 @@ const Cadastro: NextPage = () => {
               />
               <Center>
                 <Stack align="center">
-                  <Text as="span" color="gray.500">Foto do perfil (opcional)</Text>
+                  <Text as="span" color="gray.500">
+                    Foto do perfil (opcional)
+                  </Text>
                   <FormLabel
                     textAlign="center"
                     htmlFor="file"
@@ -169,7 +186,6 @@ const Cadastro: NextPage = () => {
                     h="77px"
                     w="77px"
                     borderRadius="15px"
-
                     display="flex"
                     alignItems="center"
                     justifyContent="center"

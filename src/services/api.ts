@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export const api = axios.create({
-    baseURL: 'http://localhost:3000/api'
+    baseURL: 'https://firestore.googleapis.com/v1/projects/kamikaze-week-a9429/databases/(default)/documents/'
 })

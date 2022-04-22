@@ -6,11 +6,7 @@ import { theme } from "../styles/theme";
 import {QueryClientProvider } from "react-query";
 import { queryClient } from "../services/queryClient";
 
-import { makeServer } from "../services/mirage";
 
-// if (process.env.NODE_ENV === "development") {
-//   makeServer();
-// }
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
