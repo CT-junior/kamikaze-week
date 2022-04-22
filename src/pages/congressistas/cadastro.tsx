@@ -21,6 +21,8 @@ import { Input as InputChakra } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { handleUploadImage } from "../../services/firebase";
 
+import { useRouter } from "next/router";
+
 type RegisterCongressmanFormData = {
   name: string;
   course: string;
@@ -51,6 +53,8 @@ const RegisterCongressmanFormSchema = yup.object().shape({
 const dbInstance = collection(db, "congressistas");
 
 const Cadastro: NextPage = () => {
+  const router = useRouter();
+
   const [imageFile, setImageFile] = useState<File>();
   const [imageDisplay, setImageDisplay] = useState(
     "/images/file-upload-icon.svg"
@@ -84,6 +88,7 @@ const Cadastro: NextPage = () => {
       avatarUrl: congressist.imageUrl,
     });
     console.log(congressist);
+    router.push('/congressistas')
   };
 
   function handleImageChange(event: React.FormEvent) {

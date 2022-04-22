@@ -4,63 +4,30 @@ import {
   Heading,
   HStack,
   Image,
-  Spinner,
   Text,
 } from "@chakra-ui/react";
 
-import type { NextPage } from "next";
-
 import { Hexagono } from "../../components/Hexagono";
 
-import { useRouter } from "next/router";
-import { api } from "../../services/api";
-import { useEffect, useState } from "react";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
-interface User {
-  name: {
-    stringValue: string,
-  },
-  course: {
-    stringValue: string,
-  },
-  period: {
-    integerValue: string,
-  },
-  phone: {
-    stringValue: string,
-  },
-  email: {
-    stringValue: string,
-  },
-  avatarUrl: {
-    stringValue: string,
-  },
+import { GetStaticPaths, GetStaticProps } from "next";
+import { ParsedUrlQuery } from "querystring";
+
+interface CongressistaProps {
+  data:{
+    name: string;
+    course: string
+    period: number
+    phone: string
+    email: string
+    avatarUrl: string
+  }
 }
 
-const Congressistas: NextPage = () =>{
-  const [data, setData] = useState<User>();
-  const { query } = useRouter();
-  const { id } = query;
-
+export default function Congressistas({ data }: CongressistaProps) {
   
-  useEffect(() => {
-    if (!!id) {
-      api.get(`congressistas/${id}`).then(response => {
-        setData(response.data.fields);
-        console.log(response.data)
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
-  }, [id]);
-
-  if (!data) {
-    return (
-      <Center h="100vh">
-        <Spinner />
-      </Center>
-    )
-  }
   return (
     <Center display="flex" flexDirection="column" position="relative">
       <Center display={{ base: "none", sm: "flex" }}>
@@ -103,7 +70,7 @@ const Congressistas: NextPage = () =>{
           </Heading>
           <Center mt="-32px">
             <Hexagono>
-              <img src={data.avatarUrl.stringValue} />
+              <img src={data.avatarUrl} />
             </Hexagono>
           </Center>
           <Box pl="10px" pr="10px">
@@ -123,7 +90,7 @@ const Congressistas: NextPage = () =>{
                     textAlign={{ base: "left", sm: "center" }}
                     lineHeight="25px"
                   >
-                    {data.name.stringValue}
+                    {data.name}
                   </Text>
                   <Text
                     as="p"
@@ -131,7 +98,7 @@ const Congressistas: NextPage = () =>{
                     fontSize="14px"
                     mt="10px"
                   >
-                    {data.email.stringValue}
+                    {data.email}
                   </Text>
                 </Box>
               </HStack>
@@ -143,9 +110,9 @@ const Congressistas: NextPage = () =>{
               mt={{ base: "50px", sm: "30px" }}
               fontSize="16px"
             >
-              {data.course.stringValue}
+              {data.course}
               <br />
-              {data.period.integerValue}º Período
+              {data.period}º Período
             </Text>
             <Center mt={{ base: "20px", sm: "10px" }} mb="25px">
               <Image
@@ -158,6 +125,31 @@ const Congressistas: NextPage = () =>{
       </Box>
     </Center>
   );
+}
+
+export const getStaticPaths: GetStaticPaths = async ()  => {
+  const snapshot = await getDocs(collection(db, "congressistas"));
+  const paths = snapshot.docs.map((doc) => {
+    return {
+      params: { id: doc.id.toString() },
+    };
+  });
+  return {
+    paths,
+    fallback: false,
+  };
 };
 
-export default Congressistas;
+interface IParams extends ParsedUrlQuery {
+  id: string;
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { id } = context.params as IParams;
+
+  const docRef = doc(db, "congressistas", id);
+  const docSnap = await getDoc(docRef);
+  return {
+    props: { data: docSnap.data() ||null},
+  };
+};
