@@ -10,16 +10,13 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
-import { app, db } from "../../services/firebase";
-import { collection, addDoc } from "firebase/firestore";
-
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../../components/Form";
 import { Input as InputChakra } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { handleUploadImage } from "../../services/firebase";
+import { handleUploadImage, addCongressist } from "../../services/firebase";
 
 import { useRouter } from "next/router";
 
@@ -50,8 +47,6 @@ const RegisterCongressmanFormSchema = yup.object().shape({
   email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
 });
 
-const dbInstance = collection(db, "congressistas");
-
 const Cadastro: NextPage = () => {
   const router = useRouter();
 
@@ -79,9 +74,12 @@ const Cadastro: NextPage = () => {
       ...values,
     };
     
-    addDoc(dbInstance, congressist);
-    console.log(congressist);
-    router.push('/congressistas')
+    await fetch('/api/congressist', {
+      method: "POST",
+      body: JSON.stringify({"congressist":congressist})
+    })
+    
+
   };
 
   function handleImageChange(event: React.FormEvent) {

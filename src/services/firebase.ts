@@ -1,8 +1,15 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
-const firebaseConfig = {
+const firebaseConfig =  typeof window !== 'undefined' ? {
+    apiKey: "AIzaSyAvpF88GU-QlHVOOlg0V4IWPRUX-dtuQxs",
+    authDomain: "kamikaze-week-71e6b.firebaseapp.com",
+    projectId: "kamikaze-week-71e6b",
+    storageBucket: "kamikaze-week-71e6b.appspot.com",
+    messagingSenderId: "542458291260",
+    appId: "1:542458291260:web:1117cd0b332951c93fcf39"
+} : {
     apiKey: process.env.APIKEY,
     authDomain: process.env.AUTHDOMAIN,
     projectId: process.env.PROJECTID,
@@ -41,4 +48,9 @@ export async function getCongressists() {
         })
 
     return congressistas;
+}
+
+export async function addCongressist(congressist){
+    const dbInstance = collection(db, 'congressistas');
+    await addDoc(dbInstance, congressist);
 }
