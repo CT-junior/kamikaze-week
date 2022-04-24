@@ -8,7 +8,7 @@ import { db } from "../../services/firebase";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { QrCode } from "../../components/QrCode";
-import { useRouter } from "next/router";
+
 interface CongressistaProps {
   data: {
     name: string;
@@ -22,8 +22,6 @@ interface CongressistaProps {
 }
 
 export default function Congressistas({ data, id }: CongressistaProps) {
-  const linkTag = `http://localhost:3000${useRouter().asPath}`;
-  console.log(id);
   return (
       <Center display="flex" flexDirection="column" position="relative">
         <Center display={{ base: "none", sm: "flex" }}>
@@ -111,7 +109,7 @@ export default function Congressistas({ data, id }: CongressistaProps) {
                 {data.period}º Período
               </Text>
               <Center mt={{ base: "20px", sm: "10px" }} mb="25px">
-                <QrCode size={250} string={linkTag} />
+                <QrCode size={250} string={id} />
               </Center>
             </Box>
           </>

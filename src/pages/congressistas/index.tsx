@@ -18,30 +18,31 @@ import {
 
 import { useEffect, useState } from "react";
 
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from "../../services/firebase";
-const dbInstance = collection(db, 'congressistas');
+import { getCongressists } from "../../services/firebase";
 
 const Congressistas: NextPage = () => {
   const [ congressistas, setCongressistas] = useState([]);
   
   let isLoading = true;
 
-  const getNotes = () => {
-    getDocs(dbInstance)
-        .then((data) => {
-          setCongressistas(data.docs.map((item) => {
-                return { ...item.data(), id: item.id }
-                
-            }));
-        })
-        let isLoading = true;
+  const getNotes = async (passwd: string) => {
+    await fetch("/api/congressists",
+    {
+      method: 'POST',
+      body: JSON.stringify({pass: passwd})
+    }
+    )
+      .then((response) => response.json())
+      .then(data => {
+        setCongressistas(data)
+      });
   }
   
   useEffect(() => { 
-    getNotes();
-    
-  }, [])
+    let passwd = prompt("Qual a senha?");
+
+    getNotes(passwd);
+  }, []);
 
   return (
     <Box>

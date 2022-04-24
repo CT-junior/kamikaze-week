@@ -75,18 +75,11 @@ const Cadastro: NextPage = () => {
     const imageUrl = await handleUploadImage(imageFile);
 
     const congressist = {
-      imageUrl,
+      avatarUrl: imageUrl,
       ...values,
     };
     
-    addDoc(dbInstance, {
-      name: congressist.name,
-      email: congressist.email,
-      course: congressist.course,
-      period: congressist.period,
-      phone: congressist.phone,
-      avatarUrl: congressist.imageUrl,
-    });
+    addDoc(dbInstance, congressist);
     console.log(congressist);
     router.push('/congressistas')
   };
