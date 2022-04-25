@@ -67,10 +67,10 @@ const Cadastro: NextPage = () => {
   const handleRegisterCongressman: SubmitHandler<
     RegisterCongressmanFormData
   > = async (values) => {
-    const imageUrl = await handleUploadImage(imageFile);
+    // const imageUrl = await handleUploadImage(imageFile);
 
     const congressist = {
-      avatarUrl: imageUrl,
+      // avatarUrl: imageUrl,
       ...values,
     };
     
