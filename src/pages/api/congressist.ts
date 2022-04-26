@@ -19,6 +19,7 @@ Dia 05/05, 19h: UX Design: do zero à sua primeira criação -  ONLINE (https://
 Dia 06/05, 15h: Processos construtivos na prática -  📍Local: Auditório do CT1
 
 Seu crachá virtual: https://semana.ctjunior.com.br/congressistas/${congressist.clientId}
+Ele estará disponível em alguns instantes!
 
 Basta mostrar esse crachá virtual ou informar seu email na portaria!
 `
