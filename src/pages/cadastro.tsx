@@ -13,32 +13,32 @@ import type { NextPage } from "next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "../../components/Form";
+import { Input } from "../components/Form";
 import { Input as InputChakra } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { handleUploadImage, addCongressist } from "../../services/firebase";
-
-import { useRouter } from "next/router";
+import { handleUploadImage } from "../services/firebase";
 
 type RegisterCongressmanFormData = {
-  name: string;
-  course: string;
-  period: string;
-  phone: string;
+  clientId: string;
+  nome: string;
+  curso: string;
+  periodo: string;
+  telefone: string;
   email: string;
+  imagemUrl: string;
 };
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const RegisterCongressmanFormSchema = yup.object().shape({
-  name: yup.string().required("Nome obrigatório"),
-  course: yup.string().required("Curso obrigatório"),
-  period: yup
+  nome: yup.string().required("Nome obrigatório"),
+  curso: yup.string().required("Curso obrigatório"),
+  periodo: yup
     .number()
     .typeError("Período obrigatório")
     .required("Período obrigatório"),
-  phone: yup
+  telefone: yup
     .string()
     .required("Número de telefone obrigatório.")
     .matches(phoneRegExp, "Número de telefone inválido.")
@@ -48,13 +48,11 @@ const RegisterCongressmanFormSchema = yup.object().shape({
 });
 
 const Cadastro: NextPage = () => {
-  const router = useRouter();
-
   const [imageFile, setImageFile] = useState<File>();
   const [imageDisplay, setImageDisplay] = useState(
     "/images/file-upload-icon.svg"
   );
- 
+
 
   const {
     register,
@@ -67,19 +65,28 @@ const Cadastro: NextPage = () => {
   const handleRegisterCongressman: SubmitHandler<
     RegisterCongressmanFormData
   > = async (values) => {
-    // const imageUrl = await handleUploadImage(imageFile);
+    const imageUrl = await handleUploadImage(imageFile);
 
-    const congressist = {
-      // avatarUrl: imageUrl,
+    const [nome, sobrenome] = values.nome
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase()
+      .split(' ');
+
+    const randomNumber = Math.floor(Math.random() * 100000);
+    const clientId = `${nome}.${sobrenome}.${randomNumber}`;
+
+    const congressist: RegisterCongressmanFormData = {
+      clientId,
+      imagemUrl: imageUrl,
       ...values,
     };
-    
+
     await fetch('/api/congressist', {
       method: "POST",
       body: JSON.stringify({"congressist":congressist})
     })
-    
-
   };
 
   function handleImageChange(event: React.FormEvent) {
@@ -136,32 +143,32 @@ const Cadastro: NextPage = () => {
           >
             <Stack spacing="15px">
               <Input
-                name="name"
+                name="nome"
                 type="text"
                 placeholder="Nome"
-                error={errors.name}
-                {...register("name")}
+                error={errors.nome}
+                {...register("nome")}
               />
               <Input
-                name="course"
+                name="curso"
                 type="text"
                 placeholder="Curso"
-                error={errors.course}
-                {...register("course")}
+                error={errors.curso}
+                {...register("curso")}
               />
               <Input
-                name="period"
+                name="periodo"
                 type="number"
                 placeholder="Período"
-                error={errors.period}
-                {...register("period")}
+                error={errors.periodo}
+                {...register("periodo")}
               />
               <Input
-                name="phone"
+                name="telefone"
                 type="number"
                 placeholder="Telefone"
-                error={errors.phone}
-                {...register("phone")}
+                error={errors.telefone}
+                {...register("telefone")}
               />
               <Input
                 name="email"
@@ -186,7 +193,7 @@ const Cadastro: NextPage = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <Image src={imageDisplay} />
+                    <Image src={imageDisplay} alt=''/>
                   </FormLabel>
                   <InputChakra
                     name="file"

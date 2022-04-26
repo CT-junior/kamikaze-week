@@ -1,5 +1,5 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig =  typeof window !== 'undefined' ? {
@@ -25,6 +25,10 @@ const storage = getStorage(app);
 export const db = getFirestore(app)
 
 export async function handleUploadImage(imageFile: File) {
+    if (!imageFile) {
+        return 'https://img2.gratispng.com/20180703/ya/kisspng-computer-icons-user-avatar-user-5b3bafe2381423.1933594815306383062297.jpg';
+    }
+    
     const imageRef = ref(storage, imageFile.name + Math.random());
 
     const downloadUrl = uploadBytes(imageRef, imageFile).then(async (snapshot) => {
@@ -52,5 +56,5 @@ export async function getCongressists() {
 
 export async function addCongressist(congressist){
     const dbInstance = collection(db, 'congressistas');
-    await addDoc(dbInstance, congressist);
+    await setDoc(doc(dbInstance, congressist.clientId), congressist);
 }

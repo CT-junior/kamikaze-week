@@ -18,10 +18,18 @@ import {
 
 import { useEffect, useState } from "react";
 
-import { getCongressists } from "../../services/firebase";
+type Congressist = {
+  clientId: string;
+  nome: string;
+  curso: string;
+  periodo: string;
+  telefone: string;
+  email: string;
+  imagemUrl: string;
+};
 
 const Congressistas: NextPage = () => {
-  const [ congressistas, setCongressistas] = useState([]);
+  const [ congressistas, setCongressistas] = useState<Congressist[]>([]);
   
   let isLoading = true;
 
@@ -67,19 +75,20 @@ const Congressistas: NextPage = () => {
                 <Tbody>
                   {congressistas.map((congressista) => {
                     return (
-                      <Tr key={congressista.name}>
+                      <Tr key={congressista.nome}>
                         <Td>
                           <Flex>
                             <Image
-                              src={`${congressista.avatarUrl}`}
+                              src={`${congressista.imagemUrl}`}
                               borderRadius="full"
                               boxSize="45px"
                               mr={4}
+                              alt=''
                             />
                             <Box>
-                              <Link color="purple.400" href={`/congressistas/${congressista.id}`}>
+                              <Link color="purple.400" href={`/congressistas/${congressista.clientId}`}>
                                 <Text fontWeight="bold">
-                                  {congressista.name}
+                                  {congressista.nome}
                                 </Text>
                               </Link>
                               <Text fontSize="small" color="gray.300">
@@ -90,13 +99,13 @@ const Congressistas: NextPage = () => {
                         </Td>
                         <Td>
                           <Box>
-                            <Text>{congressista.course}</Text>
+                            <Text>{congressista.curso}</Text>
                             <Text fontSize="sm" color="gray.300">
-                              {congressista.period}º período
+                              {congressista.periodo}º período
                             </Text>
                           </Box>
                         </Td>
-                        <Td>{congressista.phone}</Td>
+                        <Td>{congressista.telefone}</Td>
                       </Tr>
                     );
                   })}
