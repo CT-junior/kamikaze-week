@@ -5,7 +5,7 @@ import { Hexagono } from "../../components/Hexagono";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { QrCode } from "../../components/QrCode";
 
@@ -120,28 +120,11 @@ export default function Congressistas({ data, id }: CongressistaProps) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const snapshot = await getDocs(collection(db, "congressistas"));
-
-  const paths = snapshot.docs.map((doc) => {
-    if(!!doc.data().clientId) {
-      return {
-        params: { id: doc.data().clientId },
-      };
-    }
-  });
-
-  return {
-    paths,
-    fallback: "blocking",
-  };
-};
-
 interface IParams extends ParsedUrlQuery {
   id: string;
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as IParams;
 
   const docRef = doc(db, "congressistas", id);
