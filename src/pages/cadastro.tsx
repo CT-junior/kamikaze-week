@@ -101,7 +101,7 @@ const Cadastro: NextPage = () => {
       isClosable: true,
     })
 
-    Router.push(`/congressistas/${clientId}`);
+    Router.push(`/sucesso`);
   };
 
   function handleImageChange(event: React.FormEvent) {
@@ -159,7 +159,7 @@ const Cadastro: NextPage = () => {
               <Input
                 name="nome"
                 type="text"
-                placeholder="Nome"
+                placeholder="Nome Completo"
                 error={errors.nome}
                 {...register("nome")}
               />

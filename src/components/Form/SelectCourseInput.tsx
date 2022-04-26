@@ -1,9 +1,7 @@
 import { forwardRef, ForwardRefRenderFunction } from "react";
-import { FieldError } from "react-hook-form";
 
 import {
   FormControl,
-  InputProps as ChakraInputProps,
   Select,
   SelectProps,
 } from "@chakra-ui/react";
@@ -34,6 +32,7 @@ const InputBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
         <option>Engenharia de Produção</option>
         <option>Engenharia Ambiental</option>
         <option>Engenharia Mecânica</option>
+        <option>Engenharia Elétrica</option>
         <option>Ciência da Computação</option>
         <option>Outro</option>
       </Select>
