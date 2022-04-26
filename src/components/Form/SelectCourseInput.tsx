@@ -2,20 +2,11 @@ import { forwardRef, ForwardRefRenderFunction } from "react";
 import { FieldError } from "react-hook-form";
 
 import {
-  Input as ChakraInput,
   FormControl,
   InputProps as ChakraInputProps,
-  FormErrorMessage,
   Select,
   SelectProps,
 } from "@chakra-ui/react";
-
-
-interface InputProps extends ChakraInputProps {
-  name: string;
-  label?: string;
-  error?: FieldError;
-}
 
 const InputBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
   { name, ...rest },
@@ -26,7 +17,6 @@ const InputBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
       <Select
         name={name}
         id={name}
-        type={"email"}
         focusBorderColor="green.800"
         bg="gray.500"
         _placeholder={{ opacity: 0.5, color: 'black' }}

@@ -18,7 +18,7 @@ Dia 04/05, 16h: Técnicas que se aprendem no profissional que podem ser usadas n
 Dia 05/05, 19h: UX Design: do zero à sua primeira criação -  ONLINE (https://meet.google.com/jun-nvmt-xhc)
 Dia 06/05, 15h: Processos construtivos na prática -  📍Local: Auditório do CT1
 
-Seu crachá virtual: https://semana.ctjunior.com.br/congresssitas/${congressist.clientId}
+Seu crachá virtual: https://semana.ctjunior.com.br/congressistas/${congressist.clientId}
 
 Basta mostrar esse crachá virtual ou informar seu email na portaria!
 `

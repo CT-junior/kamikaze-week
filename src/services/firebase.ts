@@ -26,7 +26,7 @@ export const db = getFirestore(app)
 
 export async function handleUploadImage(imageFile: File) {
     if (!imageFile) {
-        return 'https://img2.gratispng.com/20180703/ya/kisspng-computer-icons-user-avatar-user-5b3bafe2381423.1933594815306383062297.jpg';
+        return 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png';
     }
     
     const imageRef = ref(storage, imageFile.name + Math.random());

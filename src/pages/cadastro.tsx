@@ -7,6 +7,7 @@ import {
   Image,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
@@ -18,6 +19,7 @@ import { Input as InputChakra } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { handleUploadImage } from "../services/firebase";
 import { SelectCourseInput } from "../components/Form/SelectCourseInput";
+import Router from "next/router";
 
 type RegisterCongressmanFormData = {
   clientId: string;
@@ -49,6 +51,8 @@ const RegisterCongressmanFormSchema = yup.object().shape({
 });
 
 const Cadastro: NextPage = () => {
+  const toast = useToast();
+
   const [imageFile, setImageFile] = useState<File>();
   const [imageDisplay, setImageDisplay] = useState(
     "/images/file-upload-icon.svg"
@@ -88,6 +92,16 @@ const Cadastro: NextPage = () => {
       method: "POST",
       body: JSON.stringify({"congressist":congressist})
     })
+
+    toast({
+      title: 'Cadastro feito!',
+      description: "Você recebeu um e-mail com mais informações, aproveite!",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
+
+    Router.push(`/congressistas/${clientId}`);
   };
 
   function handleImageChange(event: React.FormEvent) {
