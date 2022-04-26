@@ -2,7 +2,7 @@ import { Box, Center, Heading, HStack, Image, Text } from "@chakra-ui/react";
 
 import { Hexagono } from "../../components/Hexagono";
 
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -122,16 +122,13 @@ export default function Congressistas({ data, id }: CongressistaProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const snapshot = await getDocs(collection(db, "congressistas"));
+
   const paths = snapshot.docs.map((doc) => {
     if(!!doc.data().clientId) {
       return {
         params: { id: doc.data().clientId },
       };
     }
-
-    return {  //Remover !
-      params: { id: '1' },
-    };
   });
 
   return {
@@ -150,7 +147,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const docRef = doc(db, "congressistas", id);
 
   const docSnap = await getDoc(docRef);
-  console.log(docSnap.data());
 
   return {
     props: { data: docSnap.data() || null, id },
