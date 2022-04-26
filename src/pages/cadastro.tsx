@@ -17,6 +17,7 @@ import { Input } from "../components/Form";
 import { Input as InputChakra } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { handleUploadImage } from "../services/firebase";
+import { SelectCourseInput } from "../components/Form/SelectCourseInput";
 
 type RegisterCongressmanFormData = {
   clientId: string;
@@ -113,7 +114,6 @@ const Cadastro: NextPage = () => {
         display="flex"
         flexDirection="column"
       >
-        {/* <Image src="/images/bg-cadastro.svg" position="absolute"  /> */}
         <Box position="relative" p="20px 40px">
           <Heading
             as="h1"
@@ -149,11 +149,9 @@ const Cadastro: NextPage = () => {
                 error={errors.nome}
                 {...register("nome")}
               />
-              <Input
+              <SelectCourseInput
                 name="curso"
-                type="text"
                 placeholder="Curso"
-                error={errors.curso}
                 {...register("curso")}
               />
               <Input
