@@ -25,6 +25,8 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
 `
 
         try {
+            addCongressist(congressist);
+            
             const client = new SMTPClient({
                 user: process.env.EMAIL,
                 password: process.env.PASSWORD,
@@ -45,7 +47,6 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
                     return response.json(err)
                 })
 
-            addCongressist(congressist);
         } catch (error) {
             console.log(error);
         }
