@@ -71,8 +71,8 @@ const Cadastro: NextPage = () => {
     RegisterCongressmanFormData
   > = async (values) => {
     toast({
-      title: 'Cadastro feito!',
-      description: "Você recebeu um e-mail com mais informações, aproveite!",
+      title: 'Aguarde o fim do cadastro!',
+      description: "Cadastrand...!",
       status: 'warning',
       duration: 9000,
       isClosable: true,
