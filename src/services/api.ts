@@ -1,5 +1,20 @@
 import axios from 'axios'
 
-export const api = axios.create({
-    baseURL: 'https://firestore.googleapis.com/v1/projects/kamikaze-week-a9429/databases/(default)/documents/'
+const api = axios.create({
+    baseURL: process.env.APIURL
 })
+
+export async function addApiCongressist(congressist) {
+    try {
+        console.log(congressist);
+        api.post('/congressista', JSON.stringify(congressist), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}

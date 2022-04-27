@@ -54,7 +54,7 @@ export async function getCongressists() {
     return congressistas;
 }
 
-export async function addCongressist(congressist){
+export async function addFirebaseCongressist(congressist): Promise<void>{
     const dbInstance = collection(db, 'congressistas');
     await setDoc(doc(dbInstance, congressist.clientId), congressist);
 }
