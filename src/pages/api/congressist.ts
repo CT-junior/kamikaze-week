@@ -25,6 +25,8 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
 `
 
         try {
+
+            
             const client = new SMTPClient({
                 user: process.env.EMAIL,
                 password: process.env.PASSWORD,
@@ -35,6 +37,8 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
             });
 
             await Promise.all([
+                addFirebaseCongressist(congressist),
+                
                 client.sendAsync({
                     text: emailText,
                     from: process.env.EMAIL,
@@ -44,9 +48,7 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
                     .then((message) => { return response.json(message) })
                     .catch((err) => {
                         return response.json(err)
-                    }),
-    
-                addFirebaseCongressist(congressist)
+                    })
             ])
             
         } catch (error) {

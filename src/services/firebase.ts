@@ -1,22 +1,22 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig =  typeof window !== 'undefined' ? {
-    apiKey: "AIzaSyAvpF88GU-QlHVOOlg0V4IWPRUX-dtuQxs",
-    authDomain: "kamikaze-week-71e6b.firebaseapp.com",
-    projectId: "kamikaze-week-71e6b",
-    storageBucket: "kamikaze-week-71e6b.appspot.com",
-    messagingSenderId: "542458291260",
-    appId: "1:542458291260:web:1117cd0b332951c93fcf39"
+    apiKey: "AIzaSyAvdsMWjL7-8g9V9X1utZy-nB-2qj0BOgo",
+    authDomain: "kamikaze-week-a9429.firebaseapp.com",
+    projectId: "kamikaze-week-a9429",
+    storageBucket: "kamikaze-week-a9429.appspot.com",
+    messagingSenderId: "1017277912357",
+    appId: "1:1017277912357:web:45a1b5106f471f36ebb6cc",
 } : {
-    apiKey: process.env.APIKEY,
-    authDomain: process.env.AUTHDOMAIN,
-    projectId: process.env.PROJECTID,
-    storageBucket: process.env.STORAGEBUCKET,
-    messagingSenderId: process.env.MESSAGINGSENDERID,
-    appId: process.env.APPID,
-    measurementId: process.env.MEASUREMENTID
+    apiKey: "AIzaSyAvdsMWjL7-8g9V9X1utZy-nB-2qj0BOgo",
+    authDomain: "kamikaze-week-a9429.firebaseapp.com",
+    projectId: "kamikaze-week-a9429",
+    storageBucket: "kamikaze-week-a9429.appspot.com",
+    messagingSenderId: "1017277912357",
+    appId: "1:1017277912357:web:45a1b5106f471f36ebb6cc",
+    measurementId: "G-X97SKPQK2X"
 };
 
 export const app = initializeApp(firebaseConfig);

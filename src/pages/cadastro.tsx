@@ -70,6 +70,14 @@ const Cadastro: NextPage = () => {
   const handleRegisterCongressman: SubmitHandler<
     RegisterCongressmanFormData
   > = async (values) => {
+    toast({
+      title: 'Aguarde o fim do cadastro!',
+      description: "Cadastrand...!",
+      status: 'warning',
+      duration: 9000,
+      isClosable: true,
+    })
+    
     const imageUrl = await handleUploadImage(imageFile);
 
     const [nome, sobrenome] = values.nome
