@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { addCongressist } from "../../services/firebase";
+import { addFirebaseCongressist } from "../../services/firebase";
 
 import { SMTPClient } from "emailjs";
 
@@ -34,18 +34,21 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
                 },
             });
 
-            await client.sendAsync({
-                text: emailText,
-                from: process.env.EMAIL,
-                to: congressist.email,
-                subject: '[SEMANA DA CT] Inscrição confirmada!',
-            })
-                .then((message) => { return response.json(message) })
-                .catch((err) => {
-                    return response.json(err)
+            await Promise.all([
+                client.sendAsync({
+                    text: emailText,
+                    from: process.env.EMAIL,
+                    to: congressist.email,
+                    subject: '[SEMANA DA CT] Inscrição confirmada!',
                 })
-
-            addCongressist(congressist);
+                    .then((message) => { return response.json(message) })
+                    .catch((err) => {
+                        return response.json(err)
+                    }),
+    
+                addFirebaseCongressist(congressist)
+            ])
+            
         } catch (error) {
             console.log(error);
         }
