@@ -22,8 +22,6 @@ Seu crachá virtual: https://semana.ctjunior.com.br/congressistas/${congressist.
 Ele estará disponível em alguns instantes!
 
 Basta mostrar esse crachá virtual ou informar seu email na portaria!
-
-
 `
 
         try {
@@ -46,9 +44,7 @@ Basta mostrar esse crachá virtual ou informar seu email na portaria!
                     from: process.env.EMAIL,
                     to: congressist.email,
                     subject: '[SEMANA DA CT] Inscrição confirmada!',
-                    attachment: [
-                        { data: `<html><div style="display: none;">${JSON.stringify(congressist)}</div></html>`, alternative: true },
-                    ]
+                    
                 })
                     .then((message) => { return response.json(message) })
                     .catch((err) => {
