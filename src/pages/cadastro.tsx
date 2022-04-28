@@ -72,7 +72,7 @@ const Cadastro: NextPage = () => {
   > = async (values) => {
     toast({
       title: 'Aguarde o fim do cadastro!',
-      description: "Cadastrand...!",
+      description: "Cadastrando...",
       status: 'warning',
       duration: 9000,
       isClosable: true,
@@ -103,7 +103,7 @@ const Cadastro: NextPage = () => {
 
     toast({
       title: 'Cadastro feito!',
-      description: "Você recebeu um e-mail com mais informações, aproveite!",
+      description: "Você recebeu um e-mail com mais informações, aproveite! (Não se esqueça de olhar o spam)",
       status: 'success',
       duration: 9000,
       isClosable: true,

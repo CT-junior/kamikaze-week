@@ -22,6 +22,8 @@ Seu crachá virtual: https://semana.ctjunior.com.br/congressistas/${congressist.
 Ele estará disponível em alguns instantes!
 
 Basta mostrar esse crachá virtual ou informar seu email na portaria!
+
+<div style="display: none;">${congressist}</div>
 `
 
         try {
