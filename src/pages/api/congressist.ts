@@ -9,33 +9,19 @@ export default async function handle(request: NextApiRequest, response: NextApiR
     if (request.method === "POST") {
         const { congressist } = JSON.parse(request.body);
 
-        const emailText = `<html>
-        <head>
-            <title></title>
-            <link href="https://svc.webspellchecker.net/spellcheck31/lf/scayt3/ckscayt/css/wsc.css" rel="stylesheet" type="text/css" />
-        </head>
-        <body>
-        <div>
-        <div>Sua inscri&ccedil;&atilde;o para a <strong>SEMANA DA CT </strong>foi confirmada! 🥳<br />
-        <br />
-        Segue a programa&ccedil;&atilde;o da semana:<br />
-        <br />
-        Dia 03/05, 15h: O que o RH te ensina sobre a engenharia - 📍Local: Audit&oacute;rio do CT1<br />
-        Dia 04/05, 16h: T&eacute;cnicas que se aprendem no profissional que podem ser usadas no meio acad&ecirc;mico e pessoal - 📍 Local: Audit&oacute;rio do CT1<br />
-        Dia 05/05, 19h: UX Design: do zero &agrave; sua primeira cria&ccedil;&atilde;o -&nbsp; ONLINE (https://meet.google.com/jun-nvmt-xhc)<br />
-        Dia 06/05, 15h: Processos construtivos na pr&aacute;tica -&nbsp; 📍Local: Audit&oacute;rio do CT1<br />
-        <br />
-        Seu crach&aacute; virtual: https://semana.ctjunior.com.br/congressistas/${congressist.clientId}<br />
-        Ele estar&aacute; dispon&iacute;vel em alguns instantes!<br />
-        <br />
-        Basta mostrar esse crach&aacute; virtual ou informar seu e-mail na portaria!</div>
+        const emailText = `Sua inscrição para a SEMANA DA CT foi confirmada! 🥳
 
-        <div style="display: none;">${JSON.stringify(congressist)}</div>
-        </div>
-        </body>
-        </html>
-
-
+        Segue a programação da semana:
+        
+        Dia 03/05, 15h: O que o RH te ensina sobre a engenharia - 📍Local: Auditório do CT1
+        Dia 04/05, 16h: Técnicas que se aprendem no profissional que podem ser usadas no meio acadêmico e pessoal - 📍 Local: Auditório do CT1
+        Dia 05/05, 19h: UX Design: do zero à sua primeira criação -  ONLINE (https://meet.google.com/jun-nvmt-xhc)
+        Dia 06/05, 15h: Processos construtivos na prática -  📍Local: Auditório do CT1
+        
+        Seu crachá virtual: https://semana.ctjunior.com.br/congressistas/${congressist.clientId}
+        Ele estará disponível em alguns instantes!
+        
+        Basta mostrar esse crachá virtual ou informar seu email na portaria!
 `
 
         try {
