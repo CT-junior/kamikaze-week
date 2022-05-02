@@ -1,4 +1,4 @@
-import { Box, Button, Center, Stack, Text, Select } from "@chakra-ui/react";
+import { Box, Button, Center, Stack, Text, Select, useToast } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { Input } from "../../components/Form";
 
@@ -17,13 +17,16 @@ type RegisterCongressmanFormData = {
 };
 
 const Palestra: NextPage = () => {
+  const toast = useToast();
   const [email, setEmail] = useState('');
   const [result, setResult] = useState('');
   const [workshop, setWorkshop] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [debugResponse, setDebugResponse] = useState('');
 
   async function handleSearchByEmail() {
+    setIsLoading(true);
     await fetch(`/api/find/${email}`,
       {
         method: 'GET',
@@ -34,9 +37,12 @@ const Palestra: NextPage = () => {
         console.log(data);
         setResult(data.result.clientId);
       });
+
+      setIsLoading(false);
   }
 
   function handleSubmit() {
+    setIsLoading(true);
     fetch('/api/palestra', {
       method: "POST",
       body: JSON.stringify({
@@ -45,9 +51,16 @@ const Palestra: NextPage = () => {
       })
     }).then(response => {
       console.log(response);
+      toast({
+        title: 'Cadastro feito!',
+        description: "Usuário cadastrado!",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
     })
 
-    
+    setIsLoading(false);
   }
 
   return (
@@ -123,6 +136,7 @@ const Palestra: NextPage = () => {
                 fontWeight="600"
                 h={{ base: "40px", sm: "60px" }}
                 onClick={()=> handleSubmit()}
+                isLoading={isLoading}
               >
                 ENVIAR
               </Button>
