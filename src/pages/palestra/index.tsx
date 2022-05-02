@@ -18,8 +18,6 @@ type RegisterCongressmanFormData = {
 
 const Palestra: NextPage = () => {
   const [result, setResult] = useState('')
-  const [status, setStatus] = useState(false);
-  const [researched, setResearched] = useState(false);
 
   useEffect(() => {
     console.log(result);
@@ -71,7 +69,7 @@ const Palestra: NextPage = () => {
               >
                 BUSCAR
               </Button>
-              <StatusScan status={status} researched={researched} />
+              <StatusScan id={result} />
               <Select
                 placeholder="Qual palestra"
                 focusBorderColor="green.800"
