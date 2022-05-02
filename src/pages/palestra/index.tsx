@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import { Input } from "../../components/Form";
 
 import { WarningIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ScannerQrCode } from "../../components/ScannerQrCode";
 import { StatusScan } from "../../components/StatusScan";
@@ -17,8 +17,13 @@ type RegisterCongressmanFormData = {
 };
 
 const Palestra: NextPage = () => {
+  const [result, setResult] = useState('')
   const [status, setStatus] = useState(false);
   const [researched, setResearched] = useState(false);
+
+  useEffect(() => {
+    console.log(result);
+  }, [result])
 
   return (
     <Center h="100vh">
@@ -51,7 +56,7 @@ const Palestra: NextPage = () => {
                 Escanear comprovante
               </Text>
               <Center>
-                <ScannerQrCode />
+                <ScannerQrCode setData={setResult} />
               </Center>
               <Text textAlign="center" mt={"20px"} fontSize="20px">
                 ou buscar por e-mail
