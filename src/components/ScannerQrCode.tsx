@@ -11,8 +11,10 @@ export function ScannerQrCode({ setData }: props) {
   const { isOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
 
   function handleScan(data: string) {
-    setData(data)
-    closeModal();
+    if (!!data) {
+      setData(data);
+      closeModal();
+    }
   }
 
   function handleError(data: any) {
