@@ -53,7 +53,7 @@ const Palestra: NextPage = () => {
       console.log(response);
       toast({
         title: 'Cadastro feito!',
-        description: "Usuário cadastrado!",
+        description: "Usuário cadastrado!!",
         status: 'success',
         duration: 9000,
         isClosable: true,
