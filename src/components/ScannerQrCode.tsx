@@ -1,5 +1,6 @@
 import { Box, Button, Modal, Image, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 
 const QrReader = dynamic(() => import("react-qr-reader"), { ssr: false });
 
@@ -9,9 +10,11 @@ type props = {
 
 export function ScannerQrCode({ setData }: props) {
   const { isOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
+  const [info, setInfo] = useState();
 
   function handleScan(data) {
     console.log(data)
+    setInfo(data);
   }
 
   function handleError(data) {
@@ -32,8 +35,9 @@ export function ScannerQrCode({ setData }: props) {
         onClick={openModal}
       >
         <Image src="/images/scan-qr-icon.svg" alt='' />
-
+        
       </Box>
+      <Text>a aa {info}</Text>
 
 
       <Modal
