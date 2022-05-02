@@ -2,7 +2,6 @@ import { Box, Button, Center, Stack, Text, Select } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { Input } from "../../components/Form";
 
-import { WarningIcon } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
 
 import { ScannerQrCode } from "../../components/ScannerQrCode";
@@ -17,7 +16,22 @@ type RegisterCongressmanFormData = {
 };
 
 const Palestra: NextPage = () => {
+  const [email, setEmail] = useState('');
   const [result, setResult] = useState('')
+
+  async function handleSearchByEmail(){
+    console.log('oi')
+    await fetch(`/api/find/${email}`,
+    {
+      method: 'GET',
+    }
+    )
+      .then((response) => response.json())
+      .then(data => {
+        console.log(data);
+        setResult(data.result.clientId);
+      });
+  }
 
   useEffect(() => {
     console.log(result);
@@ -59,13 +73,14 @@ const Palestra: NextPage = () => {
               <Text textAlign="center" mt={"20px"} fontSize="20px">
                 ou buscar por e-mail
               </Text>
-              <Input name="email" type="email" placeholder="Email" />
+              <Input name="email" type="email" placeholder="Email" onChange={(email) => {setEmail(email.target.value)}} />
               <Button
                 bg="white"
                 color="black"
                 fontSize={{ base: "18px", sm: "24px" }}
                 fontWeight="600"
                 h={{ base: "40px", sm: "60px" }}
+                onClick={() => handleSearchByEmail()}
               >
                 BUSCAR
               </Button>
