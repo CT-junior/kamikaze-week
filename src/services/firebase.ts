@@ -1,5 +1,5 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { collection, doc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig =  typeof window !== 'undefined' ? {
@@ -65,10 +65,14 @@ export async function getCongressistByEmail(email: string){
 
     const result = await getDocs(found);
 
-    result.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-      });
-
     return(result.docs[0].data());
+}
+
+export async function addSpectator(congressistId: string, workshopId: string){
+    const congressistRef = doc(db, 'congressistas', congressistId);
+    const congressist = await getDoc(congressistRef);
+    const data = congressist.data();
+
+    const dbInstance = collection(db, 'palestras', workshopId, 'espectadores');
+    await setDoc(doc(dbInstance, data.clientId), data);
 }

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 
 import { ScannerQrCode } from "../../components/ScannerQrCode";
 import { StatusScan } from "../../components/StatusScan";
+import { api } from "../../services/api";
 
 type RegisterCongressmanFormData = {
   name: string;
@@ -17,14 +18,16 @@ type RegisterCongressmanFormData = {
 
 const Palestra: NextPage = () => {
   const [email, setEmail] = useState('');
-  const [result, setResult] = useState('')
+  const [result, setResult] = useState('');
+  const [workshop, setWorkshop] = useState('');
 
-  async function handleSearchByEmail(){
-    console.log('oi')
+  const [debugResponse, setDebugResponse] = useState('');
+
+  async function handleSearchByEmail() {
     await fetch(`/api/find/${email}`,
-    {
-      method: 'GET',
-    }
+      {
+        method: 'GET',
+      }
     )
       .then((response) => response.json())
       .then(data => {
@@ -33,9 +36,19 @@ const Palestra: NextPage = () => {
       });
   }
 
-  useEffect(() => {
-    console.log(result);
-  }, [result])
+  function handleSubmit() {
+    fetch('/api/palestra', {
+      method: "POST",
+      body: JSON.stringify({
+        "congressistId":result, 
+        "workshopId": workshop
+      })
+    }).then(response => {
+      console.log(response);
+    })
+
+    
+  }
 
   return (
     <Center h="100vh">
@@ -62,7 +75,10 @@ const Palestra: NextPage = () => {
             SEMANA DA <br />
             CT JUNIOR
           </Text>
-          <Box as="form" mt="20px" onSubmit={() => {}}>
+
+          <Text>{debugResponse}</Text>
+
+          <Box as="form" mt="20px">
             <Stack spacing="15px">
               <Text textAlign="center" mt={"20px"} fontSize="20px">
                 Escanear comprovante
@@ -73,7 +89,7 @@ const Palestra: NextPage = () => {
               <Text textAlign="center" mt={"20px"} fontSize="20px">
                 ou buscar por e-mail
               </Text>
-              <Input name="email" type="email" placeholder="Email" onChange={(email) => {setEmail(email.target.value)}} />
+              <Input name="email" type="email" placeholder="Email" onChange={(email) => { setEmail(email.target.value) }} />
               <Button
                 bg="white"
                 color="black"
@@ -93,18 +109,20 @@ const Palestra: NextPage = () => {
                 color="black"
                 variant="outline"
                 border="none"
+                onChange={(event) => setWorkshop(event.target.value)}
               >
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                <option value="rh">RH</option>
+                <option value="comercial">Comercial</option>
+                <option value="tec">Tec</option>
+                <option value="civil">Civil</option>
               </Select>
               <Button
-                type="submit"
                 bg="white"
                 color="black"
                 fontSize={{ base: "18px", sm: "24px" }}
                 fontWeight="600"
                 h={{ base: "40px", sm: "60px" }}
+                onClick={()=> handleSubmit()}
               >
                 ENVIAR
               </Button>
