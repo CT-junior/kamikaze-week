@@ -63,6 +63,7 @@ const Congressistas: NextPage = () => {
                 <Spinner size="sm" color="gray.500" ml="4" />
               )}
             </Heading>
+            <Heading size="md">Total: {congressistas.length || 0}</Heading>
           </Flex>
               <Table colorScheme="whiteAlpha">
                 <Thead>
